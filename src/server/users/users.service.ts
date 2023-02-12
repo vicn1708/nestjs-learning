@@ -15,9 +15,9 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<Users> {
     const createdUser = new this.userModel(createUserDto);
     const salt = await bcrypt.genSalt();
-    const password = createdUser.ur_pass;
+    const password = createdUser.password;
     const hash = await bcrypt.hash(password, salt);
-    createdUser.ur_pass = hash;
+    createdUser.password = hash;
     return createdUser.save();
   }
 
@@ -25,7 +25,7 @@ export class UsersService {
     return this.userModel.find().exec();
   }
 
-  async findOne(ur_email: string) {
-    return await this.userModel.findOne({ ur_email: ur_email }).exec();
+  async findOne(email: string) {
+    return await this.userModel.findOne({ email: email }).exec();
   }
 }

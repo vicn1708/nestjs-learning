@@ -11,16 +11,17 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(ur_email: string, pass: string): Promise<any> {
-    const user = await this.usersService.findOne(ur_email);
+  async validateUser(email: string, password: string): Promise<any> {
+    const user = await this.usersService.findOne(email);
+
     if (user != null || user != undefined) {
-      const isMatch = await bcrypt.compare(pass, user.ur_pass);
+      const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch != false) {
         const payload = {
           sub: user._id,
-          ur_name: user.ur_name,
-          ur_email: user.ur_email,
-          ur_role: user.ur_role,
+          userName: user.userName,
+          email: user.email,
+          role: user.role,
         };
         return payload;
       }
@@ -44,30 +45,34 @@ export class AuthService {
     const user = await this.usersService.findOne(dataUserGg.email);
 
     if (!user) {
-      await this.usersService.create({
-        ur_name: dataUserGg.displayName,
-        ur_email: dataUserGg.email,
-        ur_pass: '',
-        ur_role: Role.User,
-      });
-      const newUser = await this.usersService.findOne(dataUserGg.email);
-      return await this.login({
-        sub: newUser._id,
-        ur_name: newUser.ur_name,
-        ur_email: newUser.ur_email,
-        ur_role: newUser.ur_role,
-      });
+      const createUser = await this.usersService
+        .create({
+          userName: dataUserGg.displayName,
+          email: dataUserGg.email,
+          password: '',
+          role: Role.User,
+        })
+        .then((user) => {
+          return this.usersService.findOne(user.email);
+        })
+        .then((user) => ({
+          sub: user._id,
+          userName: user.userName,
+          email: user.email,
+          role: user.role,
+        }));
+
+      return await this.login(createUser);
     } else {
       if (dataUserGg.email_verified == true) {
         return await this.login({
           sub: user._id,
-          ur_name: user.ur_name,
-          ur_email: user.ur_email,
-          ur_role: user.ur_role,
+          userName: user.userName,
+          email: user.email,
+          role: user.role,
         });
-      } else {
-        return { msg: 'email not verify' };
       }
+      return { msg: 'email not verify' };
     }
 
     return null;

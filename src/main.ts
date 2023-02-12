@@ -20,8 +20,8 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   //* config view engine ejs
-  app.useStaticAssets(join(__dirname, '..', 'src/public'));
-  app.setBaseViewsDir(join(__dirname, '..', 'src/views'));
+  app.useStaticAssets(join(__dirname, '..', 'src/client/public'));
+  app.setBaseViewsDir(join(__dirname, '..', 'src/client/views'));
   app.setViewEngine('ejs');
 
   //* connect firebase
