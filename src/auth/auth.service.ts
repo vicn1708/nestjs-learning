@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { CreateUserDto } from 'src/users/dtos/create-user.dto';
 import { Role } from './enums/role.enum';
 
 @Injectable()
@@ -41,7 +40,7 @@ export class AuthService {
     };
   }
 
-  async loginWithGoogle(dataUserGg: any): Promise<{ access_token: string }> {
+  async loginWithGoogle(dataUserGg: any) {
     const user = await this.usersService.findOne(dataUserGg.email);
 
     if (!user) {
@@ -59,14 +58,20 @@ export class AuthService {
         ur_role: newUser.ur_role,
       });
     } else {
-      return await this.login({
-        sub: user._id,
-        ur_name: user.ur_name,
-        ur_email: user.ur_email,
-        ur_role: user.ur_role,
-      });
+      if (dataUserGg.email_verified == true) {
+        return await this.login({
+          sub: user._id,
+          ur_name: user.ur_name,
+          ur_email: user.ur_email,
+          ur_role: user.ur_role,
+        });
+      } else {
+        return { msg: 'email not verify' };
+      }
     }
 
     return null;
   }
+
+  // async loginWithGoogleFirebase() {}
 }
