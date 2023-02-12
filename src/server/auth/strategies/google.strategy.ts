@@ -6,9 +6,8 @@ import { Strategy, VerifuCallback } from 'passport-google-oauth2';
 export class GoogleStrategy extends PassportStrategy(Strategy) {
   constructor() {
     super({
-      clientID:
-        '583965012362-jjqe2pt152eem11dfb6f1l2v2h17s3bq.apps.googleusercontent.com',
-      clientSecret: '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',
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: 'http://localhost:8080/auth/google/callback',
       scope: ['email', 'profile'],
       passReqToCallback: false,
