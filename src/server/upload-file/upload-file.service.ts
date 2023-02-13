@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import cloudinary from 'src/config/cloudinay/cloudinary.config';
 import { ImgDocument, Imgs } from './schema/img.schema';
 import { Model } from 'mongoose';
 import { CreateImgDto } from './dtos/create-img.dto';

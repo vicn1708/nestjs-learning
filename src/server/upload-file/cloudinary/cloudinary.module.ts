@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigService, ConfigModule } from '@nestjs/config';
 import { CloudinaryModule } from 'nestjs-cloudinary';
-// import { CloudinaryController } from './cloudinary.controller';
 
 @Module({
   imports: [
@@ -16,6 +15,5 @@ import { CloudinaryModule } from 'nestjs-cloudinary';
       inject: [ConfigService],
     }),
   ],
-  // controllers: [CloudinaryController],
 })
 export class NestCloudinaryClientModule {}

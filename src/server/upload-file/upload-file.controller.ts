@@ -1,16 +1,14 @@
 import {
   Controller,
   Post,
-  Res,
   UploadedFile,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
 import { UploadFileService } from './upload-file.service';
 import { AnyFilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
-import { Express, Response } from 'express';
+import { Express } from 'express';
 import { CloudinaryService } from 'nestjs-cloudinary';
-import { Imgs } from './schema/img.schema';
 
 @Controller('upload')
 export class UploadFileController {
