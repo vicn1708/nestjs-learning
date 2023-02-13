@@ -1,3 +1,4 @@
+import { NestCloudinaryClientModule } from './server/upload-file/cloudinary/cloudinary.module';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './server/users/users.module';
@@ -9,6 +10,7 @@ import { UploadFileModule } from './server/upload-file/upload-file.module';
 
 @Module({
   imports: [
+    NestCloudinaryClientModule,
     MongooseModule.forRoot(process.env.url_connect || connectDB),
     AuthModule,
     UsersModule,

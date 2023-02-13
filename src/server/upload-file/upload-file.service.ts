@@ -14,33 +14,11 @@ export class UploadFileService {
     return createImg.save();
   }
 
-  //* Handle upload single file
-  async uploadSingleFile(file: any) {
-    const res = cloudinary.uploader.upload(file.path, {
-      public_id: `nestjs-${Date.now()}`,
-      resource_type: 'auto',
-      folder: 'nestjs_learning',
-    });
-
-    res
-      .then((data) => {
-        return this.create({
-          image: data.secure_url,
-          created_at: Date.now(),
-        }).then((img) => console.log(img));
-      })
-      .catch((err) => {
-        console.log(err);
-        return { msg: 'upload fail' };
-      });
-  }
-
-  //* Handle upload multiple file
-  async uploadMultipleFile(files: Array<any>) {
-    console.log(files);
-
-    files.forEach((file) => {
-      this.uploadSingleFile(file);
+  //* Handle upload file
+  async uploadFileToDb(filePath: string) {
+    return this.create({
+      image: filePath,
+      created_at: Date.now(),
     });
   }
 }
