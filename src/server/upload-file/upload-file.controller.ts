@@ -9,6 +9,7 @@ import { UploadFileService } from './upload-file.service';
 import { AnyFilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import { CloudinaryService } from 'nestjs-cloudinary';
+import { Imgs } from './schema/img.schema';
 
 @Controller('upload')
 export class UploadFileController {
@@ -42,17 +43,8 @@ export class UploadFileController {
     files: Array<Express.Multer.File>,
   ) {
     if (files.length > 0) {
-      files.map((file) => {
-        this.cloudinaryService
-          .uploadFile(file, {
-            public_id: `nestjs-${Date.now()}`,
-            folder: 'nestjs_learning',
-            allowed_formats: ['png', 'jpg'],
-            resource_type: 'auto',
-          })
-          .then((file) =>
-            this.uploadFileService.uploadFileToDb(file.secure_url),
-          );
+      files.forEach(async (file) => {
+        await this.uploadSingleFile(file);
       });
       return { msg: 'upload files successfuly' };
     }
