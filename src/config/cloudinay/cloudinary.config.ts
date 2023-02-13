@@ -1,8 +1,6 @@
-import * as Cloudinary from 'cloudinary';
+import { v2 as cloudinary } from 'cloudinary';
 
-//* connect cloudinary
-const cloudinary = Cloudinary.v2;
-
+// * connect cloudinary
 cloudinary.config({
   cloud_name: 'dtvqj8h4b',
   api_key: '451311286662286',

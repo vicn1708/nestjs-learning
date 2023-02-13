@@ -4,6 +4,7 @@ import cloudinary from 'src/config/cloudinay/cloudinary.config';
 import { ImgDocument, Imgs } from './schema/img.schema';
 import { Model } from 'mongoose';
 import { CreateImgDto } from './dtos/create-img.dto';
+
 @Injectable()
 export class UploadFileService {
   constructor(@InjectModel(Imgs.name) private imgModel: Model<ImgDocument>) {}
@@ -15,7 +16,7 @@ export class UploadFileService {
 
   //* Handle upload single file
   async uploadSingleFile(file: any) {
-    const res = cloudinary.uploader.upload(`src/images/${file.filename}`, {
+    const res = cloudinary.uploader.upload(file.path, {
       public_id: `nestjs-${Date.now()}`,
       resource_type: 'auto',
       folder: 'nestjs_learning',

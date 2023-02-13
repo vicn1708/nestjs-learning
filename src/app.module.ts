@@ -6,7 +6,6 @@ import { AuthModule } from './server/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { UploadFileModule } from './server/upload-file/upload-file.module';
-import cloudinary from './config/cloudinay/cloudinary.config';
 
 @Module({
   imports: [
@@ -14,7 +13,9 @@ import cloudinary from './config/cloudinay/cloudinary.config';
     AuthModule,
     UsersModule,
     UploadFileModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
   ],
   controllers: [AppController],
 })
